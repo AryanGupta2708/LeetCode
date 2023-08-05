@@ -1,28 +1,36 @@
 class Solution {
-public:
-    int dp[501];
-    int solve(vector<int> &arr, int i, int k) {
-
-        if(i >= arr.size()) {
-            return 0;
+private:
+    int f(vector<int>& arr, int k, int n, int ind, vector<int> &dp){
+        if(ind==n) return 0;
+        if(dp[ind]!=-1) return dp[ind];
+        int len=0;
+        int maxi=INT_MIN;
+        int max_len=INT_MIN;
+        for(int i=ind; i<min(n, ind+k); i++){
+            maxi=max(maxi, arr[i]);
+            len++;
+            max_len=max(max_len, len*maxi+f(arr, k, n, i+1, dp));
         }
-        if(dp[i] != -1) {
-            return dp[i];
-        }
-        int ans = INT_MIN;
-        for(int j = i; j < i + k and j < arr.size(); j++) {
-            int maxx = INT_MIN;
-            for(int k = i; k < j+1; k++) {
-                maxx = max(maxx, arr[k]);
-            }
-            int temp = maxx * (j-i+1);
-            int nextAns = solve(arr, j+1, k);
-            ans = max(ans, temp + nextAns);
-        }
-        return dp[i] = ans;
+        return dp[ind]=max_len;
     }
+public:
     int maxSumAfterPartitioning(vector<int>& arr, int k) {
-        memset(dp, -1, sizeof(dp));
-        return solve(arr, 0, k);
+        int n=arr.size();
+        
+        vector<int> dp(n+1, 0);
+        //return f(arr, k, n, 0, dp);
+        dp[n]=0;
+        for(int j=n-1; j>=0; j--){
+            int len=0;
+            int maxi=INT_MIN;
+            int max_len=INT_MIN;
+            for(int i=j; i<min(n, j+k); i++){
+                maxi=max(maxi, arr[i]);
+                len++;
+                max_len=max(max_len, len*maxi+dp[i+1]);
+            }
+        dp[j]=max_len;
+        }
+        return dp[0];
     }
 };
