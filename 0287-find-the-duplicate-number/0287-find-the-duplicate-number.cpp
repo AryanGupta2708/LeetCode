@@ -1,13 +1,19 @@
 class Solution {
 public:
-    int findDuplicate(std::vector<int>& nums) {
-        std::unordered_set<int> seen;
-        for (int num : nums) {
-            if (seen.find(num) != seen.end()) {
-                return num;
-            }
-            seen.insert(num);
+    int findDuplicate(vector<int>& nums) {
+        ios_base::sync_with_stdio(false);
+        cin.tie(NULL) ;
+        int slow = nums[0];
+        int fast = nums[nums[0]];
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[nums[fast]];
         }
-        return -1;  // Just to satisfy the compiler, this should never be reached
+        fast =0;
+        while(slow != fast){
+            slow = nums[slow];
+            fast = nums[fast];
+        }
+        return slow;
     }
 };
