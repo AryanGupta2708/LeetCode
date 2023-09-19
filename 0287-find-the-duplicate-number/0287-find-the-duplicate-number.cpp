@@ -3,17 +3,20 @@ public:
     int findDuplicate(vector<int>& nums) {
         ios_base::sync_with_stdio(false);
         cin.tie(NULL) ;
-        int slow = nums[0];
-        int fast = nums[nums[0]];
-        while(slow != fast){
-            slow = nums[slow];
+        int fast = 0;
+        int slow = 0;
+
+        while (true){
             fast = nums[nums[fast]];
-        }
-        fast =0;
-        while(slow != fast){
             slow = nums[slow];
-            fast = nums[fast];
+            if(slow == fast){break;}
         }
-        return slow;
+
+        fast = 0;
+        while(true){
+            fast = nums[fast];
+            slow = nums[slow];
+            if(fast == slow){return slow;}
+        }
     }
 };
