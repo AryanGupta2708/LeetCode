@@ -1,33 +1,34 @@
 class Solution {
 public:
-    int minOperations(vector<int>& nums, int targetSum) {
-        int totalSum = accumulate(nums.begin(), nums.end(), 0);
-        int target = totalSum - targetSum; // Calculate the target sum difference
+    int minOperations(vector<int>& nums, int x) {
+        
+        int n = nums.size(),sum = 0,val = 0,len = 0;
+        unordered_map<int,int> mp;
 
-        if (target < 0)
-            return -1; // Return -1 if target sum is not achievable
+        for(int i=0;i<n;i++){
+            sum+=nums[i];
+            mp[sum] = i;
+        }
+            mp[0] = 0;
 
-        if (target == 0)
-            return nums.size(); // Return the number of elements if target sum is 0
+        if(x>sum)
+        return -1;
+        sum=sum-x;
+        
+        for(int i=0;i<nums.size();i++){
 
-        int n = nums.size(); // Number of elements in the vector
-        int minOperations = INT_MAX; // Minimum operations to achieve the target sum
-        int currentSum = 0; // Current sum of elements
-        int leftIndex = 0, rightIndex = 0; // Pointers for the sliding window
+            val+=nums[i];
+            if(mp.count(val - sum)){
+                if(val - sum == 0)
+                len = max(len,i-mp[val-sum]+1);
+                else
+                len = max(len,i-mp[val-sum]);
 
-        while (rightIndex < n) {
-            currentSum += nums[rightIndex];
-            rightIndex++;
-
-            while (currentSum > target && leftIndex < n) {
-                currentSum -= nums[leftIndex];
-                leftIndex++;
             }
-
-            if (currentSum == target)
-                minOperations = min(minOperations, n - (rightIndex - leftIndex));
         }
 
-        return (minOperations == INT_MAX) ? -1 : minOperations; // Return the minimum operations or -1 if not possible
+        return len==0?(sum==0?n:-1):n-len;
+
+
     }
 };
