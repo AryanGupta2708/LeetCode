@@ -4,6 +4,8 @@ public:
         unordered_map<char,int> hast_s;
         unordered_map<char,int> hast_t;
         if(s.length()<t.length()) return "";
+        if(s==t)
+        return s;
 
         for(int i=0;i<t.length();i++){
             hast_t[t[i]]++;
