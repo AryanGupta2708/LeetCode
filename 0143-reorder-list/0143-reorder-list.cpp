@@ -10,36 +10,24 @@
  */
 class Solution {
 public:
-vector<int> storeToVector(ListNode* head)
-{
-    vector<int> v;
-        ListNode* temp = head;
-        while (temp) {
-            v.push_back(temp->val);
-            temp = temp->next;
-        }
-        return v;
-}
     void reorderList(ListNode* head) {
-         
-        vector<int>v=storeToVector(head);
-        int first=0;
-        int last=v.size()-1;
-        ListNode* temp = head;
-        int count=0;
-        while(temp)
-        {
-            if(count%2==0)
-            {
-                temp->val=v[first];
-                first++;
-            }
-            else{
-                temp->val=v[last];
-                last--;
-            }
-            count++;
-            temp=temp->next;
+        int size = 0;
+        ListNode* dummy = head;
+        stack <ListNode*> nodes;
+        while (dummy != NULL) {
+            nodes.push(dummy);
+            size++;
+            dummy = dummy->next;
         }
+        dummy = head;
+        for (int i = 0; i < size / 2; i++) {
+            ListNode* temp = dummy->next;
+            dummy->next = nodes.top();
+            nodes.pop();
+            dummy = dummy->next;
+            dummy->next = temp;
+            dummy = temp;
+        }
+        dummy->next = NULL;
     }
 };
