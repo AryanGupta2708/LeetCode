@@ -1,33 +1,38 @@
 class Solution {
 public:
-    string minWindow(string s, string t) {
-        unordered_map<char,int> hast_s;
-        unordered_map<char,int> hast_t;
-        if(s.length()<t.length()) return "";
-        if(s==t)
-        return s;
-
-        for(int i=0;i<t.length();i++){
-            hast_t[t[i]]++;
+    string minWindow(string s, string p) {
+        int n = s.length();
+        int start=0,end=INT_MAX;
+        unordered_map<char,int> mp;
+        for(auto &ele:p){
+            mp[ele]++;
         }
-        
-         int count=0, start=0,start_ind=-1,min_length=INT_MAX;
-        for(int i=0;i<s.length();i++){
-            hast_s[s[i]]++;
-            if(hast_s[s[i]] <= hast_t[s[i]])count++;
-
-            if(count==t.length()){
-                while(hast_s[s[start]]>hast_t[s[start]]){
-                    hast_s[s[start]]--;
-                    start++;  
-                }
-                if(min_length>i-start+1){
-                   min_length= i-start+1;
-                   start_ind=start;
+        int count = mp.size();
+        int i=0,j=0;
+        while(j<n){
+            if(mp.find(s[j])!=mp.end()){
+                mp[s[j]]--;
+                if(mp[s[j]]==0){
+                    count--;
                 }
             }
+            if(count==0){
+                while(count==0){
+                    if(end-start>j-i){
+                        start=i;
+                        end=j;
+                    }
+                    if(mp.find(s[i])!=mp.end()){
+                        mp[s[i]]++;
+                        if(mp[s[i]]>0){
+                            count++;
+                        }
+                    }
+                    i++;
+                }
+            }
+            j++;
         }
-        if(start_ind == -1)return "";
-        else return s.substr(start_ind , min_length);
+        return end== INT_MAX? "":s.substr(start,end-start+1);
     }
 };
