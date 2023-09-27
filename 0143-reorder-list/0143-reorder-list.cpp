@@ -11,23 +11,51 @@
 class Solution {
 public:
     void reorderList(ListNode* head) {
-        int size = 0;
-        ListNode* dummy = head;
-        stack <ListNode*> nodes;
-        while (dummy != NULL) {
-            nodes.push(dummy);
-            size++;
-            dummy = dummy->next;
+        if(head->next==NULL || head==NULL){
+            return;
         }
-        dummy = head;
-        for (int i = 0; i < size / 2; i++) {
-            ListNode* temp = dummy->next;
-            dummy->next = nodes.top();
-            nodes.pop();
-            dummy = dummy->next;
-            dummy->next = temp;
-            dummy = temp;
+        ListNode *slow = head;
+        ListNode *fast = head; 
+        ListNode *prev = NULL; 
+        while(fast!=NULL && fast->next !=NULL){
+            prev = slow; 
+            slow = slow->next;
+            fast = fast->next->next; 
         }
-        dummy->next = NULL;
+
+        prev->next = NULL; 
+        ListNode *l1 = head;
+        ListNode *l2 = reverse(slow); 
+        merge(l1,l2); 
+        
+        
+    }
+private:
+    ListNode *reverse(ListNode *head){
+        ListNode *temp;
+        ListNode *curr = head;
+        ListNode *prev = NULL;
+        while(curr!=NULL){
+            temp = curr->next;
+            curr->next = prev;
+            prev = curr;
+            curr = temp;
+        }
+        return prev;
+    }
+
+    void merge(ListNode *l1, ListNode *l2){
+        while(l1!=NULL){
+            ListNode *p1 = l1->next;
+            ListNode *p2 = l2->next;
+
+            l1->next = l2; 
+            if(p1==NULL){
+                break;
+            } 
+            l2->next = p1; 
+            l1 = p1;
+            l2 = p2;
+        }
     }
 };
