@@ -1,30 +1,42 @@
 class Solution {
 public:
-    std::string decodeAtIndex(string s, int k) {
-        long long length = 0;
-        int i = 0;
+    string decodeAtIndex(string s, int k) {
+
+        int n = s.length();
+        long size = 0;
         
-        while (length < k) {
-            if (isdigit(s[i])) {
-                length *= s[i] - '0';
-            } else {
-                length++;
+
+        for(int i=0;i<s.length();i++){
+            if(isdigit(s[i])){
+                size = size*(s[i] - '0');
             }
-            i++;
-        }
-        
-        for (int j = i - 1; j >= 0; j--) {
-            if (isdigit(s[j])) {
-                length /= s[j] - '0';
-                k %= length;
-            } else {
-                if (k == 0 || k == length) {
-                    return std::string(1, s[j]);  // Convert char to std::string
-                }
-                length--;
+            
+            if(isalpha(s[i])){
+                size++;
             }
+            
         }
+
+        for(int i=n-1;i>=0;i--){
+            
+            k = k % size;
+
+            if(k==0 && isalpha(s[i])|| k==size && isalpha(s[i])){
+                char c = s[i];
+                string temp = "";
+                temp=temp+c;
+                return temp;
+            }
+            if(isdigit(s[i])){
+                size = size / (s[i]-'0');
+            }
+            else
+                size--;
         
-        return ""; // Default return, should never reach here given problem constraints
+
+        }
+
+        return ("lul");
+        
     }
 };
