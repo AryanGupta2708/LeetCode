@@ -25,7 +25,7 @@ public:
 
         bool l = isSameTree(p->left,q->left);
         bool r = isSameTree(p->right,q->right);
-        if(l==true && r==true)
+        if(l && r)
         return true;
         else return false;
         
