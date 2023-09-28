@@ -21,10 +21,8 @@ public:
 
         temp = head;
 
-        if(count==1){
-            head = nullptr;
-            return head;
-        }
+        
+        
         if(n==count){
             head = head->next;
             return head;
