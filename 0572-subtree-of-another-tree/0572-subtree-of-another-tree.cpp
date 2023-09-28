@@ -31,12 +31,10 @@ public:
     bool isSubtree(TreeNode* root, TreeNode* subRoot) {
         if(!root)
         return false;
-
-        if(root->val == subRoot->val){
-        bool ans = check(root,subRoot);
-        if(ans)
-        return ans;
-        }
+        
+        if(check(root,subRoot))
+        return true;
+        
 
         
         bool left = isSubtree(root->left,subRoot);
