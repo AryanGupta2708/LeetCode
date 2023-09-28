@@ -1,25 +1,59 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
 class Solution {
 public:
     ListNode* removeNthFromEnd(ListNode* head, int n) {
-        ListNode* slow = head;
-        ListNode* fast = head;
-        
-		// move fast pointer to the n + 1 element
-        while (n--) { fast = fast->next; }
-        
-        // handle edge case: given n is always valid, 
-        // if fast reached the end, we need to remove the first element
-        if (fast == nullptr) return head->next;
+        ListNode* temp = head;
+        int count = 0;
 
-        // move both pointers at the same time maintaing the difference
-        while (fast->next != nullptr) {
-            fast = fast->next;
-            slow = slow->next;
+        while(temp){
+            temp=temp->next;
+            count++;
         }
+
+        temp = head;
+
+        if(count==1){
+            head = nullptr;
+            return head;
+        }
+        if(n==count){
+            head = head->next;
+            return head;
+        }
+
+        if(n==1){
+            while(temp->next->next){
+            temp=temp->next;
+            }
+            temp->next = nullptr;
+            return head;
+
+        }
+
         
-        // slow will be pointing to the element before the one we want to remove
-        slow->next = slow->next->next;
-        
+
+        n = count - n + 1;
+        int i=0;
+
+        while(i!=n-2){
+            i++;
+            temp=temp->next;
+        }
+
+        temp->next = temp->next->next;
+
         return head;
+
+        
+        
     }
 };
