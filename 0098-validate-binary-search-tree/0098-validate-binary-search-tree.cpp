@@ -1,18 +1,16 @@
 class Solution {
+
+bool isPossible(TreeNode* root, long long l, long long r){
+    if(root == nullptr)  return true;
+    if(root->val < r and root->val > l)
+        return isPossible(root->left, l, root->val) and 
+                                isPossible(root->right, root->val, r);
+    else return false;
+}
+
 public:
     bool isValidBST(TreeNode* root) {
-        return isValid(root, NULL, NULL);
-    }
-    
-    bool isValid(TreeNode* root, int* lower, int* upper){
-        if(!root)
-            return true;
-
-        if(upper && root -> val >= *upper)
-            return false;
-        if(lower && root -> val <= *lower)
-            return false;
-        
-        return isValid(root -> left, lower, &(root -> val)) && isValid(root -> right, &(root -> val), upper);
+        long long int min = -1000000000000, max = 1000000000000;
+        return isPossible(root, min, max);
     }
 };
