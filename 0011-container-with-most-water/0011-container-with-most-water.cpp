@@ -2,24 +2,27 @@ class Solution {
 public:
     int maxArea(vector<int>& height) {
 
-        int max=0;
+        int left = 0,right = height.size()-1,newvol = 0,vol = 0;
 
-        for(int i=0,j=height.size()-1;i<j;){
+        while(left<right){
+            newvol = (min(height[left],height[right]))*(right-left);
+            vol = max(vol,newvol);
+
+            if(height[left]<height[right]){
+                left++;
+                
+            }
+            else{
+                right--;
+                
+            }
+
             
-            if(min(height[i],height[j])*(j-i)>max)
-            max = min(height[i],height[j])*(j-i);
-
-            if(height[i]>=height[j])
-            j--;
-            else if(height[i]<height[j])
-            i++;
-            
-
-
-
         }
-        return max;
-        
+
+        return vol;
+
+
         
     }
 };
