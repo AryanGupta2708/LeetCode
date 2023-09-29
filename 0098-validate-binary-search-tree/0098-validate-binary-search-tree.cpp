@@ -11,7 +11,7 @@ bool isPossible(TreeNode* root, long long l, long long r){
 
 public:
     bool isValidBST(TreeNode* root) {
-        long long int min = -1000000000000, max = 1000000000000;
+        long long int min = LONG_MIN, max = LONG_MAX;
         return isPossible(root, min, max);
     }
 };
